@@ -8,7 +8,13 @@ const urlencodedParser = bodyParser.urlencoded({extended: false});
 let cadena_conexion;
 
 function init(){
-    let arc = fs.readFileSync('properties.conf', 'utf-8');
+    let dir = 'properties.conf';
+    let arc;
+    if(fs.existsSync(dir)){
+        arc = fs.readFileSync(dir, 'utf-8');
+    }else{
+        arc = fs.readFileSync('/test/app/properties.conf', 'utf-8');
+    }
     let ln = arc.split('\n');
     cadena_conexion = ln[0];
 }

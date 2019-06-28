@@ -25,5 +25,10 @@ router.route('/contacts:contact_id')
 router.route('/grafica_pie')
     .get(postController.grafica_pie);
 
+router.route('/categoria_top')
+    .get(postController.categoria_top);
+
+router.route('/categorias')
+    .get(postController.categorias);
 
 module.exports = router;

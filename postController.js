@@ -79,7 +79,17 @@ exports.index = function(req, res){
     });
 };
 
-exports.grafica_pie = function(req, res){
+/**
+ * 
+ * @param {Number} limite 
+ */
+
+function getQueryCategoria(limite){
+    /**
+     * es un vector con las diferentes consultas y se compoorta
+     * como pipe and filters:
+     * consulta(registros, query[0])->consulta(resultado1, query[1])....
+     */
     let query = [
         {
             $group : {
@@ -91,7 +101,7 @@ exports.grafica_pie = function(req, res){
             $sort: {"cantidad": -1}
         },
         {
-            $limit: 10
+            $limit: limite
         },
         {
             $project: {
@@ -101,12 +111,93 @@ exports.grafica_pie = function(req, res){
             }
         }
     ];
+
+    return query;
+}
+
+/**
+ * Esta función realiza la consulta, agrupa los tweets por categoria calcula
+ * la cantidad, los ordena de mayor a menor, extrae solo 10 registros y 
+ * por ultimo crea la proyección que se mostrara en la grafica
+ */
+exports.grafica_pie = function(req, res){
+    let query = getQueryCategoria(10);
+
     Publicacion.aggregate(query,function(err, datos){
-        
+        if(err){
+            res.json({
+                estado: "error",
+                mensaje: "Error en la funcion grafica_pie"
+            });
+        }
+
         res.json({
             estado:"hecho",
             mensaje:"datos para la grafica de pie",
             datos: datos
         });
+    });
+};
+
+/***
+ * Esta función recupera la categoria que tiene mas tweets y la cantidad de estos
+ */
+exports.categoria_top = function(req, res){
+    let query = getQueryCategoria(1);
+    Publicacion.aggregate(query, function(err, datos){
+        if(err){
+            res.json({
+                estado: "error",
+                mensaje: "Error en la funcion categoria_top"
+            });
+        }
+
+        res.json({
+            estado: "hecho",
+            mensaje: "datos de la categoria mas utilizada",
+            datos: datos
+        });
+    }); 
+};
+
+/***
+ * Esta funcion se encarga de consultar la cantidad de categorias
+ * que se han agregado
+ */
+exports.categorias = function(req, res){
+    let query = [
+        {
+            $group : {
+                _id: "$categoria",
+                suma : {$sum: 1}
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                categorias : {$sum: 1}
+            }
+        },
+        {
+            $project:{
+                _id: false,
+                categorias : "$categorias"
+            }
+        }
+    ]
+
+    Publicacion.aggregate(query, function(err, datos){
+        if(err){
+            res.json({
+                estado: "error",
+                mensaje: "Error en la funcion categorias"
+            });
+        }
+
+        res.json({
+            estado: "hecho",
+            mensaje: "la cantidad de categorias es:",
+            datos: datos
+        })
     });
 };

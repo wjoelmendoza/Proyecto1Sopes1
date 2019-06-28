@@ -10,6 +10,7 @@ router.get('/', (req, res)=>{
 });
 
 const contactController = require('./contactController');
+const postController = require('./postController');
 
 router.route('/contacts')
     .get(contactController.index)
@@ -20,6 +21,9 @@ router.route('/contacts:contact_id')
     .patch(contactController.update)
     .put(contactController.update)
     .delete(contactController.delete);
+
+router.route('/grafica_pie')
+    .get(postController.grafica_pie);
 
 
 module.exports = router;

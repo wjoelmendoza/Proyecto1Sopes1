@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.use(bodyParser.json());
-
+app.use(express.static('public'));
 
 /***
  * Ruta de acceso principal
@@ -58,14 +58,14 @@ app.get('/test/', urlencodedParser, (req, res)=>{
         postController.index(req, res);
     
 });
-
-
-app.get('/carga', urlencodedParser, function(req, res){
-    console.log(req.query);
-    res.send("<h1>Hola Mundo! &#35;<h1>");
-});
-
+/***
+ * Punto de acceso a la mayoria de recursos rest
+ */
 app.use('/api', apiRoutes);
+
+app.get('/dashboard_admin', (req, res)=>{
+    res.render('dashboard_admin.ejs');
+})
 
 app.listen(8080, function(){
     console.log("escuchando en el puerto: 8080");

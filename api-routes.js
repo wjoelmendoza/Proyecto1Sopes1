@@ -22,9 +22,17 @@ router.route('/contacts:contact_id')
     .put(contactController.update)
     .delete(contactController.delete);
 */
-//ruta para cantidad de usuarios
+//ruta para la cantidad de usuarios
 router.route('/usuarios')
     .get(postController.getUsuarios);
+
+//ruta para la cantidad de tweets
+router.route('/tweets')
+    .get(postController.getTweets);
+
+//ruta para la cantidad de usuario con tweets más creados
+router.route('/usuario_tweets')
+    .get(postController.usuario_top);
 
 router.route('/grafica_pie')
     .get(postController.grafica_pie);

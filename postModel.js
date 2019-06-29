@@ -17,10 +17,9 @@ const publicacionSchema = mongoose.Schema({
         type: String,
         default: "sin_categoria"
     },
-    imagen: String,
-    fecha_publicacion: {
-        type: Date,
-        default: Date.now
+    palabra:{
+        type: String,
+        default: "sin palabra para busqueda"
     }
 
 });

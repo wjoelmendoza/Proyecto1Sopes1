@@ -46,7 +46,7 @@ exports.new = function (req, res, datos) {
  * @param {String} texto 
  * @returns {Array} de cadenas posiblemente vacio
  */
-function getCategoria(texto) {
+function getCategoria(texto) { 
     let r = /#(\w|\d)+/g;
     let lst = [];
     let f;
@@ -239,6 +239,152 @@ exports.getUsuarios = function(req, res){
             estado: "hecho",
             mensaje: "la cantidad de usuarios es:",
             datos: datos
+        })
+    });
+}
+
+/**
+ * Esta función obtendrá el query del total de tweets
+ */
+exports.getTweets = function(req, res){
+    let query = [
+        {
+            $group : {
+                _id: "$txt",
+                suma : {$sum: 1}
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                txt : {$sum: 1}
+            }
+        },
+        {
+            $project:{
+                _id: false,
+                txt : "$txt"
+            }
+        }
+    ]
+
+    Publicacion.aggregate(query, function(err, datos){
+        if(err){
+            res.json({
+                estado: "error",
+                mensaje: "Error en la funcion tweets"
+            });
+        }
+
+        res.json({
+            estado: "hecho",
+            mensaje: "la cantidad de tweets es:",
+            datos: datos
+        })
+    });
+}
+
+/**
+ * Esta función realiza el query de obtener el usuario con los tweets más creados
+ */
+function getQueryUsuario(limite){
+        /**
+     * es un vector con las diferentes consultas y se compoorta
+     * como pipe and filters:
+     * consulta(registros, query[0])->consulta(resultado1, query[1])....
+     */
+    let query = [
+        {
+            $group : {
+                _id:"$usuario",
+                cantidad: {$sum:1}
+            }
+        },
+        {
+            $sort: {"cantidad": -1}
+        },
+        {
+            $limit: limite
+        },
+        {
+            $project: {
+                _id:false,
+                usuario: "$_id",
+                cantidad: "$cantidad"
+            }
+        }
+    ];
+
+    return query;
+}
+
+/**
+ * Obtiene los tweets más creados por el usuario
+ */
+exports.usuario_top = function(req, res){
+    let query = getQueryUsuario(1);
+    Publicacion.aggregate(query, function(err, datos){
+        if(err){
+            res.json({
+                estado: "error",
+                mensaje: "Error en la funcion usuario_top"
+            });
+        }
+
+        res.json({
+            estado: "hecho",
+            mensaje: "datos del usuario con tweets mas creados",
+            datos: datos
+        });
+    }); 
+}
+/**
+ * Funcion que retorna un arreglo de tweets 
+ */
+function getQueryBusqueda(){
+    let query = [
+        {
+            $group : {
+                _id:"$txt",
+            }
+        },
+        
+        {
+            $project: {
+                _id:false,
+                txt: "$_id"
+            }
+        }
+    ];
+
+    return query;
+}
+
+/**
+ * obtiene los tweets que contiene esta palabra adentro de un texto
+ */
+exports.busqueda = function (req, res, dat) {
+    let query = getQueryBusqueda(); //obtiene todos los tweets
+    Publicacion.aggregate(query, function(err, datos){
+        if(err){
+            res.json({
+                estado: "error",
+                mensaje: "Error en la funcion busqueda"
+            });
+        }
+        var vector = []; //este vector guardará todas las coincidencias
+        for(var i = 0; i < datos.length; i++){ //recorre el vector de tweets
+            if(datos[i].txt != null){
+                var buscar = (datos[i].txt).search(dat.palabra); //busca la palabra
+                if(buscar != -1){ //entra solo si la encuentra.
+                    vector.push(datos[i].txt);
+                }
+            }
+        }
+        res.json({
+            estado: "hecho",
+            mensaje: "tweets:",
+            datos: vector
         })
     });
 }

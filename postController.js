@@ -283,7 +283,9 @@ exports.getTweets = function(req, res){
         res.json({
             estado: "hecho",
             mensaje: "la cantidad de tweets es:",
-            datos: datos
+            datos: {
+                cantidad: datos[0].txt
+            }
         })
     });
 }
@@ -334,11 +336,14 @@ exports.usuario_top = function(req, res){
                 mensaje: "Error en la funcion usuario_top"
             });
         }
-
+        let dato = datos[0];
         res.json({
             estado: "hecho",
             mensaje: "datos del usuario con tweets mas creados",
-            datos: datos
+            datos: {
+                usuario: dato.usuario,
+                publicaciones: dato.cantidad
+            }
         });
     }); 
 }

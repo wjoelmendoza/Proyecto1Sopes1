@@ -155,7 +155,7 @@ exports.categoria_top = function(req, res){
         res.json({
             estado: "hecho",
             mensaje: "datos de la categoria mas utilizada",
-            datos: datos
+            datos: datos[0]
         });
     }); 
 };
@@ -197,7 +197,9 @@ exports.categorias = function(req, res){
         res.json({
             estado: "hecho",
             mensaje: "la cantidad de categorias es:",
-            datos: datos
+            datos: {
+                cantidad: datos[0].categorias
+            }
         })
     });
 };
@@ -238,7 +240,9 @@ exports.getUsuarios = function(req, res){
         res.json({
             estado: "hecho",
             mensaje: "la cantidad de usuarios es:",
-            datos: datos
+            datos: {
+                cantidad: datos[0].usuario
+            }
         })
     });
 }

@@ -61,4 +61,4 @@ function refrescarGrafico(data, status) {
     myPieChart.update();
 }
 
-setInterval(recDataProc, 3000);
+setInterval(recDataProc, 4000);

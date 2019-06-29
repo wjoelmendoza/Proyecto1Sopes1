@@ -254,20 +254,14 @@ exports.getTweets = function(req, res){
     let query = [
         {
             $group : {
-                _id: "$txt",
-                suma : {$sum: 1}
-            }
-        },
-        {
-            $group: {
                 _id: null,
-                txt : {$sum: 1}
+                suma : {$sum: 1}
             }
         },
         {
             $project:{
                 _id: false,
-                txt : "$txt"
+                txt : "$suma"
             }
         }
     ]

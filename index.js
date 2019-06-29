@@ -78,6 +78,12 @@ app.get('/dashboard_admin', (req, res)=>{
     res.render('dashboard_admin.ejs');
 })
 
+//página de búsquedas
+app.get('/busquedas', (req, res)=>{
+    res.render('dashboard_busqueda.ejs');
+})
+
+
 app.listen(8080, function(){
     console.log("escuchando en el puerto: 8080");
 });

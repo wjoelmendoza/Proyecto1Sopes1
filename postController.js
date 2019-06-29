@@ -342,34 +342,12 @@ exports.usuario_top = function(req, res){
         });
     }); 
 }
-/**
- * Funcion que retorna un arreglo de tweets 
- */
-function getQueryBusqueda(){
-    let query = [
-        {
-            $group : {
-                _id:"$txt",
-            }
-        },
-        
-        {
-            $project: {
-                _id:false,
-                txt: "$_id"
-            }
-        }
-    ];
-
-    return query;
-}
 
 /**
  * obtiene los tweets que contiene esta palabra adentro de un texto
  */
 exports.busqueda = function (req, res, dat) {
-    let query = getQueryBusqueda(); //obtiene todos los tweets
-    Publicacion.aggregate(query, function(err, datos){
+    Publicacion.get(function(err, datos){
         if(err){
             res.json({
                 estado: "error",
@@ -379,9 +357,9 @@ exports.busqueda = function (req, res, dat) {
         var vector = []; //este vector guardará todas las coincidencias
         for(var i = 0; i < datos.length; i++){ //recorre el vector de tweets
             if(datos[i].txt != null){
-                var buscar = (datos[i].txt).search(dat.palabra); //busca la palabra
-                if(buscar != -1){ //entra solo si la encuentra.
-                    vector.push(datos[i].txt);
+                var buscar = (datos[i].txt).match(dat.palabra); //busca la palabra
+                if(buscar != null){ //entra solo si la encuentra.
+                    vector.push(datos[i]);
                 }
             }
         }

@@ -27,7 +27,7 @@ function init(){
 
 init();
 mongoose.connect(cadena_conexion);
-const db = mongoose.connection;
+//const db = mongoose.connection;
 
 const app = express();
 
@@ -50,6 +50,17 @@ app.get('/', urlencodedParser, (req, res)=>{
         postController.new(req, res, req.query);
     }else{
         res.send('Hola mundo con Express')
+    }
+});
+
+/**
+ * Ruta para la busqueda de palabras
+ */
+app.get('/api/buscar/', urlencodedParser, (req, res)=>{
+    if(req.url != '/'){
+        postController.busqueda(req, res, req.query);
+    }else{
+        res.send('Hola tuvo que ser una búsqueda')
     }
 });
 

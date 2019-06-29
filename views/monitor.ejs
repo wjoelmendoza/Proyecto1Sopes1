@@ -1,5 +1,5 @@
 <%
-    let title = 'Dashboard Administrador';
+    let title = 'Monitor';
 %>
 
 <%include head%>
@@ -19,21 +19,15 @@
         <span>Tablas</span>
       </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="busquedas">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Búsquedas</span>
-        </a>
-      </li>
     <hr class="sidebar-divider my-0">
-    <li class="nav-item active">
+    <li class="nav-item">
       <a class="nav-link" href="dashboard_admin">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span>
       </a>
     </li>
     <hr class="sidebar-divider my-0">
-    <li class="nav-item">
+    <li class="nav-item active">
       <a class="nav-link" href="monitor">
         <i class="fas fa-fw fa-chart-line"></i>
         <span>Monitor</span>
@@ -163,6 +157,4 @@
 </div>
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/chart.js/Chart.min.js"></script>
-<script src="js/graf_pie.js"></script>
-<script src="js/estadisticas.js"></script>
 <%include foot%>

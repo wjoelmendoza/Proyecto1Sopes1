@@ -31,6 +31,9 @@ let myPieChart = new Chart(graf, {
         legend: {
             display: true,
             position: 'left'
+        },
+        animation:{
+            duration: 200
         }
     },
 });

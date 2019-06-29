@@ -83,6 +83,12 @@ app.get('/busquedas', (req, res)=>{
     res.render('dashboard_busqueda.ejs');
 })
 
+/**
+ * 
+ */
+app.get('/monitor', (req,res)=>{
+    res.render('monitor.ejs');
+});
 
 app.listen(8080, function(){
     console.log("escuchando en el puerto: 8080");

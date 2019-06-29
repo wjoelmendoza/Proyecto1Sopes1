@@ -201,3 +201,44 @@ exports.categorias = function(req, res){
         })
     });
 };
+
+/**
+ * Esta funcion obtendrá el query del total de usuarios
+ */
+exports.getUsuarios = function(req, res){
+    let query = [
+        {
+            $group : {
+                _id: "$usuario",
+                suma : {$sum: 1}
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                usuario : {$sum: 1}
+            }
+        },
+        {
+            $project:{
+                _id: false,
+                usuario : "$usuario"
+            }
+        }
+    ]
+
+    Publicacion.aggregate(query, function(err, datos){
+        if(err){
+            res.json({
+                estado: "error",
+                mensaje: "Error en la funcion usuarios"
+            });
+        }
+
+        res.json({
+            estado: "hecho",
+            mensaje: "la cantidad de usuarios es:",
+            datos: datos
+        })
+    });
+}

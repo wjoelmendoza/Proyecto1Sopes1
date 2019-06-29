@@ -17,7 +17,6 @@ exports.index = function(req, res){
     });
 };
 
-
 exports.new = function(req, res){
     let contact = new Contact();
     contact.name = req.body.name ? req.body.name : contact.name;

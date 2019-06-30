@@ -49,7 +49,7 @@ app.get('/', urlencodedParser, (req, res)=>{
     if(req.url != '/'){
         postController.new(req, res, req.query);
     }else{
-        res.send('Hola mundo con Express')
+        res.redirect('/dashboard_admin');
     }
 });
 

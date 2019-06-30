@@ -14,18 +14,18 @@
     </a>
     <hr class="sidebar-divider my-0">
     <li class="nav-item">
-      <a class="nav-link" href="tablas">
-        <i class="fas fa-fw fa-table"></i>
-        <span>Tablas</span>
-      </a>
-    </li>
-    <hr class="sidebar-divider my-0">
-    <li class="nav-item">
       <a class="nav-link" href="dashboard_admin">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span>
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" href="busquedas">
+        <i class="fas fa-fw fa-table"></i>
+        <span>Búsquedas</span>
+      </a>
+    </li>
+    <hr class="sidebar-divider my-0">
     <hr class="sidebar-divider my-0">
     <li class="nav-item active">
       <a class="nav-link" href="monitor">
@@ -44,18 +44,18 @@
     <div id="content">
       <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800">Dashboard Administrador</h1>
+          <h1 class="h3 mb-0 text-gray-800">Monitor</h1>
         </div>
         <!--cards-->
         <div class="row">
-          <!--Total de tweets-->
-          <div class="col-xl-2 col-md-5 mb-4">
+          <!--Detalles del procesador-->
+          <div class="col-xl-6 col-md-5 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                      Total de Tweets
+                      CPU
                     </div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800" id="tweets">
                       0
@@ -65,14 +65,14 @@
               </div>
             </div>
           </div>
-          <!--Total de usuarios-->
-          <div class="col-xl-2 col-md-5 mb-4">
+          <!--Detalles de la memoria-->
+          <div class="col-xl-6 col-md-5 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                      Total de Usuarios
+                      RAM
                     </div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800" id="tusuarios">
                       0
@@ -82,73 +82,34 @@
               </div>
             </div>
           </div>
-          <!--Total de categorias-->
-          <div class="col-xl-2 col-md-5 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                      Total de Categorías
-                    </div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="tcats">
-                      0
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--Categoria com mas twits-->
-          <div class="col-xl-2 col-md-5 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                      Usuario Top
-                    </div>
-                    <div class="h6 mb-0 font-weight-bold text-gray-800">
-                      <div id="utopn">Sin categoría</div>
-                      <div id="utopc">0</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--Categoria com mas twits-->
-          <div class="col-xl-2 col-md-5 mb-4">
-            <div class="card border-left-danger shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                      Categoría Top
-                    </div>
-                    <div class="h6 mb-0 font-weight-bold text-gray-800">
-                      <div id="ctopn">Sin categoría</div>
-                      <div id="ctopc">0</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="row">
-          <div class="col-xl-10">
+          <!--Grafica del Procesador-->
+          <div class="col-xl-6">
             <div class="card shadow mb-3">
               <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Top10 de Categorías</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Uso del CPU</h6>
               </div>
               <div class="card-body">
                 <div class="chart-area">
-                  <canvas id="graficaTop10"></canvas>
+                  <canvas id="grafProcesador"></canvas>
                 </div>
               </div>
             </div>
           </div>
+          <!--Grafica de la memoria-->
+          <div class="col-xl-6">
+              <div class="card shadow mb-3">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-success">Uso de memoria</h6>
+                </div>
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="grafMemoria"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
     </div>
@@ -157,4 +118,6 @@
 </div>
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/chart.js/Chart.min.js"></script>
+<script src="js/graf_procesador.js"></script>
+<script src="js/graf_memoria.js"></script>
 <%include foot%>

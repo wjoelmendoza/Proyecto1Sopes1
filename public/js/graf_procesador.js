@@ -1,14 +1,15 @@
 Chart.defaults.global.defaultFontFamily = 'Numito', '-apple-system,system-ui,BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Arial, sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796'
-let grafMem = document.getElementById('grafMemoria');
-let lblMem = -20;
-let chartMem = new Chart(grafMem, {
+let grafproc = document.getElementById('grafProcesador');
+let lbl = -20;
+let contproc = 0;
+let chartProc = new Chart(grafproc, {
     type: 'line',
     data: {
-        labels: [lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1,
-        lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1, lblMem += 1],
+        labels: [lbl += 1, lbl += 1, lbl += 1, lbl += 1, lbl += 1, lbl += 1, lbl += 1, lbl += 1, lbl += 1, lbl += 1,
+        lbl += 1, lbl += 1, lbl += 1, lbl += 1, lbl += 1, lbl += 1, lbl += 1, lbl += 1, lbl += 1, lbl += 1],
         datasets: [{
-            label: "Memoria Usada: ",
+            label: "Porcentaje usado",
             lineTension: 0,
             backgroundColor: "rgba(78, 115, 223, 0.05)",
             borderColor: "rgba(78, 115, 223, 1)",
@@ -51,7 +52,7 @@ let chartMem = new Chart(grafMem, {
                 ticks:{
                     maxTicksLimit: 10,
                     callback: function(value, index, values){
-                        return value + " MB"
+                        return value + " %"
                     }
                 }
             }],
@@ -60,10 +61,10 @@ let chartMem = new Chart(grafMem, {
             display: false
         },
         tooltips:{
-            callbacks:{
-                label: (tooltipItem, chart) =>{
+            callbacks: {
+                label: (tooltipItem, chart)=>{
                     let datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                    return datasetLabel+ ': ' + tooltipItem.yLabel + ' MB';
+                    return datasetLabel +':' + tooltipItem.yLabel.toFixed(2) + '%'
                 }
             }
         }
@@ -73,29 +74,24 @@ let chartMem = new Chart(grafMem, {
 );
 
 
-function recDataMem(){
-    $.get('/meminfo',{}, refrescarGraficoMem)
+function recDataProc(){
+    $.get('/uso_proc',{}, refrescarGrafico)
 }
 
-function refrescarGraficoMem(data, status){
+function refrescarGrafico(data, status){
     if(!status)
         return
     
-    let t = document.getElementById('datos_mem');
-    t.removeChild(t.firstChild);
-    let texto = document.createTextNode("Memoria total: " + data.mem_total + "MB;\n Porcentaje Consumido: " + data.pcons + "%")
-    t.appendChild(texto);
-    
-    let lbls = chartMem.data.labels;
+    let lbls = chartProc.data.labels;
     lbls.push(lbl+=1);
     lbls = lbls.slice(1);
-    chartMem.data.labels = lbls;
+    chartProc.data.labels = lbls;
 
-    let datos = chartMem.data.datasets[0].data;
-    datos = datos.slice(1);
-    datos.push(data.mem_cons);
-    chartMem.data.datasets[0].data = datos;
-    chartMem.update();
+    let datos = chartProc.data.datasets[0].data;
+    datos = datos.slice(1)
+    datos.push(data.porcentaje)
+    chartProc.data.datasets[0].data = datos
+    chartProc.update();
 }
 
-setInterval(recDataMem,1000);
+setInterval(recDataProc,1000);

@@ -151,11 +151,13 @@ exports.categoria_top = function(req, res){
                 mensaje: "Error en la funcion categoria_top"
             });
         }
+        
+        let categoria = datos[0]? datos[0] : {categoria: "no_categoria", cantidad: 0};
 
         res.json({
             estado: "hecho",
             mensaje: "datos de la categoria mas utilizada",
-            datos: datos[0]
+            datos: categoria
         });
     }); 
 };
@@ -194,11 +196,13 @@ exports.categorias = function(req, res){
             });
         }
 
+        let categorias = datos[0]? datos[0].categorias: 0;
+
         res.json({
             estado: "hecho",
             mensaje: "la cantidad de categorias es:",
             datos: {
-                cantidad: datos[0].categorias
+                cantidad: categorias
             }
         })
     });
@@ -237,11 +241,13 @@ exports.getUsuarios = function(req, res){
             });
         }
 
+        let usr = datos[0]? datos[0].usuario : 0;
+
         res.json({
             estado: "hecho",
             mensaje: "la cantidad de usuarios es:",
             datos: {
-                cantidad: datos[0].usuario
+                cantidad: usr
             }
         })
     });
@@ -274,11 +280,13 @@ exports.getTweets = function(req, res){
             });
         }
 
+        let txt = datos[0]? datos[0].txt : 0;
+
         res.json({
             estado: "hecho",
             mensaje: "la cantidad de tweets es:",
             datos: {
-                cantidad: datos[0].txt
+                cantidad: txt
             }
         })
     });
@@ -330,7 +338,7 @@ exports.usuario_top = function(req, res){
                 mensaje: "Error en la funcion usuario_top"
             });
         }
-        let dato = datos[0];
+        let dato = datos[0]? datos[0] : {usuario:"no_user", cantidad: 0};
         res.json({
             estado: "hecho",
             mensaje: "datos del usuario con tweets mas creados",

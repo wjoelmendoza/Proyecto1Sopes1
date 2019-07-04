@@ -20,6 +20,10 @@ const publicacionSchema = mongoose.Schema({
     palabra:{
         type: String,
         default: "sin palabra para busqueda"
+    },
+    fecha_publicacion:{
+        type: Date,
+        default: Date.now
     }
 
 });

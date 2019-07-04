@@ -90,6 +90,14 @@ app.get('/monitor', (req,res)=>{
     res.render('monitor.ejs');
 });
 
+/***
+ * busqueda alternativa
+ */
+
+ app.get('/busquedasb',(req, res)=>{
+    res.render('busqueda.ejs');
+ });
+
 app.listen(8080, function(){
     console.log("escuchando en el puerto: 8080");
 });
